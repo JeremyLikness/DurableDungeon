@@ -27,12 +27,9 @@ namespace DurableDungeon.Functions
             var username = context.GetInput<string>();
             logger.LogInformation("Start of user confirmation workflow for {user}", username);
 
-            if (!context.IsReplaying)
-            {
-                await context.CallActivityAsync(nameof(ConsoleFunctions.AddToQueue),
-                    $"User {username} now has {Global.ExpirationMinutes} minutes to confirm they are ready.");
-            }
-       
+            await context.CallActivityAsync(nameof(ConsoleFunctions.AddToQueue),
+                $"User {username} now has {Global.ExpirationMinutes} minutes to confirm they are ready.");
+
             using (var timeoutCts = new CancellationTokenSource())
             {
                 var dueTime = context.CurrentUtcDateTime
