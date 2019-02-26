@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DungeonConsole": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "storage_connection": "UseDevelopmentStorage=true;"
+      }
+    }
+  }
+}
