@@ -19,7 +19,7 @@ namespace DungeonConsole
     /// </summary>
     class Program
     {
-        const string CONNECTION = "storage_connection";
+        const string CONNECTION = "STORAGE_CONNECTION";
         const string QUEUE_NAME = "console";
         const string DEFAULT_CONNECTION = "UseDevelopmentStorage=true";
 
