@@ -21,7 +21,6 @@ namespace DurableDungeon.Functions
         [FunctionName(nameof(UserConfirmationWorkflow))]
         public static async Task UserConfirmationWorkflow(
             [OrchestrationTrigger]DurableOrchestrationContext context,
-            [OrchestrationClient]DurableOrchestrationClient starter,
             ILogger logger)
         {
             var username = context.GetInput<string>();
