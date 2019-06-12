@@ -2,7 +2,7 @@
 A game designed to teach and learn [serverless durable functions](https://jlik.me/e9m) in C#
 
 ## Overview
-The Durable Dungeon is a very simple game I wrote to illustrate a long-running serverless application architecture. It is entirely serverless and uses [Table Storage](https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-design) as the database back end. The general game flow works like this:
+The Durable Dungeon is a very simple game I wrote to illustrate a long-running serverless application architecture. It is entirely serverless and uses [Table Storage](https://jlik.me/fbd) as the database back end. The general game flow works like this:
 
 1. New user assigned to game. 
 2. A room is created, with a monster. A weapon is placed in the room and the monster holds the treasure.
@@ -14,9 +14,11 @@ Commands are issued via end point "posts". A walkthrough below describes in more
 ## Get started
 Clone the repository. 
 
-There is a console app that monitors the queue. By default, it uses the [Azure Storage Emulator](https://jlik.me/e9i). To use a real storage account, set `STORAGE_CONNECTION` to the connection string. Run this in a separate window to view "game play." 
+> *Optional* :
+>
+> There is a console app that monitors the queue. By default, it uses the [Azure Storage Emulator](https://jlik.me/e9i). To use a real storage account, set `STORAGE_CONNECTION` to the connection string. Run this in a separate window to view "game play." Alternatively, you can monitor the queue directly. The app generates a lot of logging information so the console is useful for demoing steps in a clearer fashion. 
 
-Run the functions app locally. Create a file in the root of the `DurableDungeon` project named `local.settings.json` and populate it with this to use the storage emulator:
+Run the functions app locally from Visual Studio 2017 or later, Visual Studio Code (tasks and settings are included) or by using the functions runtime directly. Create a file in the root of the `DurableDungeon` project named `local.settings.json` and populate it with this to use the storage emulator:
 
 ```json
 {
