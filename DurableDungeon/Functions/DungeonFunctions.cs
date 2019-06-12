@@ -54,6 +54,43 @@ namespace DurableDungeon.Functions
             return new OkResult();
         }
 
+        [FunctionName(nameof(GameStatus))]
+        public static async Task<IActionResult> GameStatus(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "GameStatus/{username}")]
+                HttpRequest req,
+            string username,
+            [Table(nameof(User))]CloudTable userTable,
+            [Table(nameof(Room))]CloudTable roomTable,
+            [Table(nameof(Monster))]CloudTable monsterTable,
+            [Table(nameof(Inventory))]CloudTable inventoryTable,
+            ILogger log)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                log.LogWarning("No username passed.");
+                return new BadRequestObjectResult("Username is required.");
+            }
+
+            var userClient = userTable.AsClientFor<User>();
+            var tempUser = new User { Name = username };
+            var userCheck = await userClient.GetAsync(tempUser.PartitionKey, username);
+            if (userCheck == null)
+            {
+                log.LogWarning("Username {0} not found", username);
+                return new BadRequestObjectResult($"Username '{username}' does not exist.");
+            }
+            var monsterList = await monsterTable.AsClientFor<Monster>().GetAllAsync(username);
+            var inventoryList = await inventoryTable.AsClientFor<Inventory>().GetAllAsync(username);
+            var roomList = await roomTable.AsClientFor<Room>().GetAllAsync(username);
+            return new OkObjectResult(new
+            {
+                user = userCheck,
+                monster = monsterList[0],
+                inventory = inventoryList,
+                room = roomList[0]
+            });
+        }
+
         [FunctionName(nameof(CheckStatus))]
         public static async Task<IActionResult> CheckStatus(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "CheckStatus/{username}/{workflow}")]

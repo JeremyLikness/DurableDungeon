@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, Helvetica, sans-serif
+}
+p, button, select, h2 {
+    margin: 0.5em;
+}
+input {
+    padding: 0.5em;
+    margin: 0.5em;
+    width: 10em;
+}
+div#lastError {
+    padding: 0.5em;
+    margin: 0.5em;
+    width: 50em;
+    border: solid 2px darkred;
+    background: lightpink;
+}
+div.status {
+    padding: 0.5em;
+    margin: 0.5em;
+    border: solid 2px black;
+    width: 20em;
+    font-weight: bolder;
+    text-align: center;
+}
+div.unknown {
+    background: lightgray;
+}
+div.running {
+    background: lightgreen;
+}
+div.completed {
+    background: lightsalmon;
+}
+div.failed {
+    background: gold;
+}

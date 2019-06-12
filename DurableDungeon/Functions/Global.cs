@@ -11,7 +11,7 @@ namespace DurableDungeon.Functions
         public const string QUEUE = "console";
 
         public const int ExpirationMinutes = 2;
-        public const int DefaultSpanMinutes = 20;
+        public const int DefaultSpanMinutes = 60;
         public const int MonitorTimeoutHours = 1;
 
         [FunctionName(nameof(StartNewWorkflow))]

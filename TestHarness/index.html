@@ -1,0 +1,49 @@
+<html>
+
+<head>
+    <title>Durable Dungeon</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+    <h1>Durable Dungeon Control Panel</h1>
+    <div>
+        <p>Enter username to query:</p>
+        <input name="username" id="username" placeholder="username" />
+    </div>
+    <div>
+        <button id="toggle">Run</button>
+        <button id="new">New User</button>
+        <button id="confirm">Confirm</button>
+    </div>
+    <div>
+        <p>Action: <select id="action">
+                <option id="get">get</option>
+                <option id="kill">kill</option>
+            </select>
+            Target:
+            <input name="target" id="target" />
+            With:
+            <input name="with" id="with" />
+            <button id="btnAction">Action</button>
+        </p>
+    </div>
+    <div id="workflows">
+        <div id="UserConfirmationWorkflow" class="status">UserConfirmationWorkflow</div>
+        <div id="UserMonitorWorkflow" class="status">UserMonitorWorkflow</div>
+        <div id="GameMonitorWorkflow" class="status">GameMonitorWorkflow</div>
+        <div id="RunUserParallelWorkflow" class="status">RunUserParallelWorkflow</div>
+        <div id="RunUserSequentialWorkflow" class="status">RunUserSequentialWorkflow</div>
+    </div>
+    <div id="description">
+        <h2>Durable Dungeon Monitor</h2>
+        <p>A simple front-end to interact with the game.</p>
+        <p><strong>Get started by typing in a username!</strong></p>
+    </div>
+    <div id="lastError">
+        (no errors yet)
+    </div>
+    <script src="index.js"></script>
+</body>
+
+</html>
