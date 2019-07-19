@@ -35,8 +35,9 @@ namespace DungeonConsole
             }
 
             var storageAccount = CloudStorageAccount.Parse(storageConnection);
-            var client = storageAccount.CreateCloudQueueClient();
+            var client = storageAccount.CreateCloudQueueClient();           
             var queue = client.GetQueueReference(QUEUE_NAME);
+            queue.CreateIfNotExistsAsync().Wait();
 
             Task.Run(async () => await WatchQueueAsync(queue)).Wait();
         }
