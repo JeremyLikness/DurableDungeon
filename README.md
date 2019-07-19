@@ -1,5 +1,7 @@
 # DurableDungeon
-A game designed to teach and learn [serverless durable functions](https://jlik.me/e9m) in C#
+A game designed to teach and learn [serverless durable functions](https://jlik.me/e9m) in C#.
+
+📄 Read the related blog post, [Stateful Serverless: Long-Running Workflows with Durable Functions](https://blog.jeremylikness.com/blog/stateful-serverless-long-running-workflows-with-durable-functions/).
 
 ## Overview
 The Durable Dungeon is a very simple game I wrote to illustrate a long-running serverless application architecture. It is entirely serverless and uses [Table Storage](https://jlik.me/fbd) as the database back end. The general game flow works like this:
