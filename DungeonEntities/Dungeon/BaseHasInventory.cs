@@ -1,5 +1,6 @@
 ﻿using DungeonEntities.DungeonMaster;
 using Microsoft.WindowsAzure.Storage.Table;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace DungeonEntities.Dungeon
@@ -13,12 +14,19 @@ namespace DungeonEntities.Dungeon
 
         public string InventoryItems { get; set; }
 
-        [IgnoreProperty]
+        [JsonIgnore]
         public List<string> InventoryList { get; set; }
 
         public virtual void RestoreLists()
         {
-            InventoryList = InventoryItems?.AsList();
+            if (string.IsNullOrWhiteSpace(InventoryItems))
+            {
+                InventoryList = new List<string>();
+            }
+            else
+            {
+                InventoryList = InventoryItems.AsList();
+            }
         }
 
         public virtual void SaveLists()

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.WebJobs;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DungeonEntities.Dungeon
@@ -9,6 +10,31 @@ namespace DungeonEntities.Dungeon
         public bool IsAlive { get; set; }
 
         public string CurrentRoom { get; set; }
+
+        public void New(string name)
+        {
+            Name = name;
+            IsAlive = true;
+        }
+
+        public void SetRoom(string room)
+        {
+            CurrentRoom = room;
+        }
+
+        public void AddInventory(string name)
+        {
+            RestoreLists();
+            InventoryList.Add(name);
+            SaveLists();
+        }
+
+        public void Kill()
+        {
+            IsAlive = false;
+            InventoryList.Clear();
+            InventoryItems = string.Empty;
+        }
 
         [FunctionName(nameof(Monster))]
         public static Task Run([EntityTrigger] IDurableEntityContext ctx)

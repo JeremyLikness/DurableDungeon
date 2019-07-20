@@ -44,12 +44,12 @@ namespace DurableDungeon.Functions
 
             // create the user here
             var id = name.AsEntityIdFor<User>();
-            await starter.SignalEntityAsync<User>(id, user => user.New(name));
+            await starter.SignalEntityAsync(id, nameof(User.New), name);
 
-            //await starter.StartNewAsync(nameof(NewUserParallelFunctions.RunUserParallelWorkflow), name);
+            await starter.StartNewAsync(nameof(NewUserParallelFunctions.RunUserParallelWorkflow), name);
             log.LogInformation("Started new parallel workflow for user {user}", name);
 
-            //await starter.StartNewAsync(nameof(MonitorFunctions.UserMonitorWorkflow), name);
+            await starter.StartNewAsync(nameof(MonitorFunctions.UserMonitorWorkflow), name);
             log.LogInformation("Started new monitor workflow for user {user}", name);
 
             return new OkResult();
@@ -77,10 +77,14 @@ namespace DurableDungeon.Functions
             }
             var monsterCheck = await client.ReadUserEntityAsync<Monster>(username);
             var inventoryCheck = await client.ReadUserEntityAsync<InventoryList>(username);
+            if (inventoryCheck.EntityExists)
+            {
+                inventoryCheck.EntityState.RestoreLists();
+            }
             var roomCheck = await client.ReadUserEntityAsync<Room>(username);
             return new OkObjectResult(new
             {
-                user = userCheck,
+                user = userCheck.EntityState,
                 monster = monsterCheck.EntityState,
                 inventory = inventoryCheck.EntityState?.InventoryList,
                 room = roomCheck.EntityState

@@ -15,6 +15,23 @@ namespace DungeonEntities.Dungeon
             IsAlive = true;
         }
 
+        public void Kill()
+        {
+            IsAlive = false;
+        }
+
+        public void SetRoom(string room)
+        {
+            CurrentRoom = room;
+        }
+
+        public void AddInventory(string inventory)
+        {
+            RestoreLists();
+            InventoryList.Add(inventory);
+            SaveLists();
+        }
+
         [FunctionName(nameof(User))]
         public static Task Run([EntityTrigger] IDurableEntityContext ctx)
             => ctx.DispatchAsync<User>();

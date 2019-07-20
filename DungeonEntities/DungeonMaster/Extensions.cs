@@ -1,4 +1,6 @@
 ﻿using DungeonEntities.Dungeon;
+using Dynamitey;
+using Dynamitey.DynamicObjects;
 using Microsoft.Azure.WebJobs;
 using System;
 using System.Collections.Generic;
@@ -20,33 +22,52 @@ namespace DungeonEntities.DungeonMaster
         public static string AsIdFor(this string key, string user)
             => $"{user}:{key}";
 
-        public static EntityId AsEntityIdFor<T>(this string user)
+        public static EntityId AsEntityIdFor<T>(this string user, string treasureName = null)
         {
-            return new EntityId(nameof(T), user);
+            var key = string.IsNullOrWhiteSpace(treasureName) ?
+                  user : $"{user}:{treasureName}";
+            return new EntityId(typeof(T).Name, key);
         }
 
-        public static Task<EntityStateResponse<T>> ReadUserEntityAsync<T>(this IDurableOrchestrationClient client, string user)
+        public static async Task<EntityStateResponse<T>> ReadUserEntityAsync<T>(this IDurableOrchestrationClient client, string user)
         {
             var id = user.AsEntityIdFor<T>();
-            return client.ReadEntityStateAsync<T>(id);
+            var result = await client.ReadEntityStateAsync<T>(id);
+            if (result.EntityState is IHaveLists)
+            {
+                ((IHaveLists)result.EntityState).RestoreLists();
+            }
+            return result;
         }
 
-        public static void PrepareForSave<T>(this T item)
+        public static async Task<T> GetEntityForUserOrThrow<T>(this string username, IDurableOrchestrationClient client)
         {
-            if (item is IHaveLists)
+            var check = await client.ReadUserEntityAsync<T>(username);
+            if (!check.EntityExists)
             {
-                var itemWithList = item as IHaveLists;
-                itemWithList.SaveLists();
+                throw new Exception($"No {typeof(T)} found for user {username}");
             }
+            if (check.EntityState is IHaveLists)
+            {
+                ((IHaveLists)check.EntityState).RestoreLists();
+            }
+            return check.EntityState;
         }
 
-        public static void PrepareAfterLoad<T>(this T item)
+        public static async Task<List<Inventory>> DeserializeListForUserWithClient(this InventoryList list, string user, IDurableOrchestrationClient client)
         {
-            if (item is IHaveLists)
+            var result = new List<Inventory>();
+            list.RestoreLists();
+            foreach(var item in list.InventoryList)
             {
-                var itemWithList = item as IHaveLists;
-                itemWithList.RestoreLists();
+                var id = user.AsEntityIdFor<Inventory>(item);
+                var inventory = await client.ReadEntityStateAsync<Inventory>(id);
+                if (inventory.EntityExists)
+                {
+                    result.Add(inventory.EntityState);
+                }
             }
+            return result;
         }
 
         public static string AsString(this List<string> list)

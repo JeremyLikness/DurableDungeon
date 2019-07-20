@@ -1,5 +1,6 @@
 ﻿using Microsoft.Azure.WebJobs;
 using Microsoft.WindowsAzure.Storage.Table;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace DungeonEntities.Dungeon
@@ -11,7 +12,7 @@ namespace DungeonEntities.Dungeon
         public string Room { get; set; }
         public bool IsTreasure { get; set; }
 
-        [IgnoreProperty]
+        [JsonIgnore]
         public bool UserHasIt
         {
             get
@@ -19,6 +20,35 @@ namespace DungeonEntities.Dungeon
                 return string.IsNullOrWhiteSpace(Monster) &&
                     string.IsNullOrWhiteSpace(Room);
             }
+        }
+
+        public void New(string name)
+        {
+            Name = name;
+            IsTreasure = false;
+        }
+
+        public void SetTreasure()
+        {
+            IsTreasure = true;
+        }
+
+        public void SetMonster(string monster)
+        {
+            Room = string.Empty;
+            Monster = monster;
+        }
+
+        public void SetRoom(string room)
+        {
+            Room = room;
+            Monster = string.Empty;
+        }
+
+        public void SetUser()
+        {
+            Room = string.Empty;
+            Monster = string.Empty;
         }
 
         [FunctionName(nameof(Inventory))]

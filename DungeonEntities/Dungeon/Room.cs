@@ -9,6 +9,35 @@ namespace DungeonEntities.Dungeon
         public string Description { get; set; }
         public string Monster { get; set; }
 
+        public void New(string name)
+        {
+            Name = name;            
+        }
+
+        public void SetDescription(string description)
+        {
+            Description = description;
+        }
+
+        public void SetMonster(string monster)
+        {
+            Monster = monster;
+        }
+
+        public void AddInventory(string inventory)
+        {
+            RestoreLists();
+            InventoryList.Add(inventory);
+            SaveLists();
+        }
+
+        public void RemoveInventory(string inventory)
+        {
+            RestoreLists();
+            InventoryList.Remove(inventory);
+            SaveLists();
+        }
+
         [FunctionName(nameof(Room))]
         public static Task Run([EntityTrigger] IDurableEntityContext ctx)
             => ctx.DispatchAsync<Room>();

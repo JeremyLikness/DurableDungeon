@@ -45,8 +45,8 @@ namespace DungeonEntities.Functions
                 filter);
             foreach (var instance in instances)
             {
-                if (instance.Input.ToObject<string>() == username &&
-                    instance.Name == workflowName)
+                if (instance.Name == workflowName &&
+                        instance.Input.ToObject<string>() == username)
                 {                    
                     return instance;
                 }
