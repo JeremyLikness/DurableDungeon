@@ -2,7 +2,7 @@
 A game designed to teach and learn [serverless durable functions](https://jlik.me/e9m) in C#
 
 ## Overview
-The Durable Dungeon is a very simple game I wrote to illustrate a long-running serverless application architecture. It is entirely serverless and uses [Table Storage](https://jlik.me/fbd) as the database back end. The general game flow works like this:
+The Durable Dungeon is a very simple game I wrote to illustrate a long-running serverless application architecture. It is entirely serverless and uses [Table Storage](https://jlik.me/fbd) as the database back end (or the preview [Durable Entities](https://jlik.me/gar)). The general game flow works like this:
 
 1. New user assigned to game. 
 2. A room is created, with a monster. A weapon is placed in the room and the monster holds the treasure.
@@ -29,6 +29,8 @@ Run the functions app locally from Visual Studio 2017 or later, Visual Studio Co
   }
 }
 ```
+
+> There are two versions of code.`DurableDungeon` uses Durable Functions v1 and Table Storage. `DungeonEntities` surfaces the exact same API but uses the preview v2 and Durable Entities to track state. 
 
 Change `AzureWebJobsStorage` to a connection string if you wish to use real storage. You can also [publish to Azure](https://jlik.me/e9k) or run a [command-line Zip deployment](https://jlik.me/e9l).
 
