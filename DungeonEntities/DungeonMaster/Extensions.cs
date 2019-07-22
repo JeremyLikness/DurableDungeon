@@ -47,10 +47,6 @@ namespace DungeonEntities.DungeonMaster
             {
                 throw new Exception($"No {typeof(T)} found for user {username}");
             }
-            if (check.EntityState is IHaveLists)
-            {
-                ((IHaveLists)check.EntityState).RestoreLists();
-            }
             return check.EntityState;
         }
 
