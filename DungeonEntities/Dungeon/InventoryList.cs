@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DungeonEntities.Dungeon
 {
-    public class InventoryList : BaseHasInventory
+    public class InventoryList : BaseHasInventory, IInventoryListOperations
     {
         public void New(Inventory[] inventory)
         {

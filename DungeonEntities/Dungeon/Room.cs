@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace DungeonEntities.Dungeon
 {
-    public class Room : BaseHasInventory
+    public class Room : BaseHasInventory, IRoomOperations
     {
         public string Name { get; set; }
         public string Description { get; set; }

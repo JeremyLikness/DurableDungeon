@@ -48,7 +48,7 @@ namespace DungeonEntities.Functions
             
             if (action == "get")
             {
-                return await GetMethod(console, client, name, target, userCheck);
+                return await GetMethod(console, client, name, target);
             }
             else if (action == "kill")
             {
@@ -93,21 +93,19 @@ namespace DungeonEntities.Functions
             var room = await name.GetEntityForUserOrThrow<Room>(client);
 
             // monster dies
-            await client.SignalEntityAsync(
+            await client.SignalEntityAsync<IMonsterOperations>(
                 name.AsEntityIdFor<Monster>(),
-                nameof(Monster.Kill));
+                operation => operation.Kill());
 
             // monster drops inventory, inventory => room
-            await client.SignalEntityAsync(
+            await client.SignalEntityAsync<IInventoryOperations>(
                 name.AsEntityIdFor<Inventory>(monsterInventory),
-                nameof(Inventory.SetRoom),
-                room.Name);
+                operation => operation.SetRoom(room.Name));
 
             // add inventory to room
-            await client.SignalEntityAsync(
+            await client.SignalEntityAsync<IRoomOperations>(
                 name.AsEntityIdFor<Room>(),
-                nameof(Room.AddInventory),
-                monsterInventory);
+                operation => operation.AddInventory(monsterInventory));
 
             await console.AddAsync($"User {name} valiantly killed {target} with {with}.");
             await console.AddAsync($"User {name} notices {target} dropped a {monsterInventory}.");
@@ -130,8 +128,7 @@ namespace DungeonEntities.Functions
             IAsyncCollector<string> console,
             IDurableOrchestrationClient client,
             string name,
-            string target,
-            User userCheck)
+            string target)
         {
             if (string.IsNullOrEmpty(target))
             {
@@ -142,21 +139,19 @@ namespace DungeonEntities.Functions
             if (room.InventoryList.Contains(target))
             {
                 // room loses inventory
-                await client.SignalEntityAsync(
+                await client.SignalEntityAsync<IRoomOperations>(
                     name.AsEntityIdFor<Room>(),
-                    nameof(Room.RemoveInventory),
-                    target);
+                    operation => operation.RemoveInventory(target));
 
                 // user gains inventory
-                await client.SignalEntityAsync(
+                await client.SignalEntityAsync<IUserOperations>(
                     name.AsEntityIdFor<User>(),
-                    nameof(User.AddInventory),
-                    target);
+                    operation => operation.AddInventory(target));
 
                 // inventory moves to user
-                await client.SignalEntityAsync(
+                await client.SignalEntityAsync<IInventoryOperations>(
                     name.AsEntityIdFor<Inventory>(target),
-                    nameof(Inventory.SetUser));
+                    operation => operation.SetUser());
 
                 var list = await name.GetEntityForUserOrThrow<InventoryList>(client);
                 var inventoryList = await list.DeserializeListForUserWithClient(name, client);

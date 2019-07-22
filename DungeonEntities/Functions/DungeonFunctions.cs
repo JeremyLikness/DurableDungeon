@@ -44,7 +44,8 @@ namespace DurableDungeon.Functions
 
             // create the user here
             var id = name.AsEntityIdFor<User>();
-            await starter.SignalEntityAsync(id, nameof(User.New), name);
+            await starter.SignalEntityAsync<IUserOperations>(
+                id, user => user.New(name));
 
             await starter.StartNewAsync(nameof(NewUserParallelFunctions.RunUserParallelWorkflow), name);
             log.LogInformation("Started new parallel workflow for user {user}", name);

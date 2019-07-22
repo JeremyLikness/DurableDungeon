@@ -2,8 +2,6 @@
 using DungeonEntities.DungeonMaster;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using Microsoft.WindowsAzure.Storage.Table;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -44,10 +42,9 @@ namespace DungeonEntities.Functions
                 room.Name,
                 username);
 
-            await client.SignalEntityAsync(
+            await client.SignalEntityAsync<IUserOperations>(
                 username.AsEntityIdFor<User>(),
-                nameof(User.SetRoom),
-                room.Name);
+                operation => operation.SetRoom(room.Name));
 
             logger.LogInformation("Placed user {user} in room {room}.",
                 username,
@@ -73,15 +70,13 @@ namespace DungeonEntities.Functions
                 room.Name,
                 username);
 
-            await client.SignalEntityAsync(
+            await client.SignalEntityAsync<IMonsterOperations>(
                 username.AsEntityIdFor<Monster>(),
-                nameof(Monster.SetRoom),
-                room.Name);
-
-            await client.SignalEntityAsync(
+                operation => operation.SetRoom(room.Name));
+            
+            await client.SignalEntityAsync<IRoomOperations>(
                 username.AsEntityIdFor<Room>(),
-                nameof(Room.SetMonster),
-                monster.Name);
+                operation => operation.SetMonster(monster.Name));
 
             logger.LogInformation("Placing monster {monster} in room {room} for user {user} successful.",               
                 monster.Name,
@@ -111,15 +106,13 @@ namespace DungeonEntities.Functions
                 monster.Name,
                 username);
 
-            await client.SignalEntityAsync(
+            await client.SignalEntityAsync<IInventoryOperations>(
                 username.AsEntityIdFor<Inventory>(inventory.Name),
-                nameof(Inventory.SetMonster),
-                monster.Name);
+                operation => operation.SetMonster(monster.Name));
 
-            await client.SignalEntityAsync(
+            await client.SignalEntityAsync<IMonsterOperations>(
                 username.AsEntityIdFor<Monster>(),
-                nameof(Monster.AddInventory),
-                inventory.Name);
+                operation => operation.AddInventory(inventory.Name));
 
             logger.LogInformation("Placing treasure {inventory} on monster {monster} for user {user} successful.",
                 inventory.Name,
@@ -149,15 +142,13 @@ namespace DungeonEntities.Functions
                 room.Name,
                 username);
 
-            await client.SignalEntityAsync(
+            await client.SignalEntityAsync<IInventoryOperations>(
                 username.AsEntityIdFor<Inventory>(inventory.Name),
-                nameof(Inventory.SetRoom),
-                room.Name);
+                operation => operation.SetRoom(room.Name));
 
-            await client.SignalEntityAsync(
+            await client.SignalEntityAsync<IRoomOperations>(
                 username.AsEntityIdFor<Room>(),
-                nameof(Room.AddInventory),
-                inventory.Name);
+                operation => operation.AddInventory(inventory.Name));
 
             logger.LogInformation("Place treasure for user {user} successful.");
             await console.AddAsync($"{username} sees a {inventory.Name} inside the room!");

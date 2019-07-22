@@ -122,8 +122,9 @@ namespace DungeonEntities.Functions
             {
                 throw new Exception($"KillUser: User {username} not found!");
             }
-            await client.SignalEntityAsync(username.AsEntityIdFor<User>(),
-                    nameof(User.Kill));
+            await client.SignalEntityAsync<IUserOperations>(
+                username.AsEntityIdFor<User>(),
+                operation => operation.Kill());
             await console.AddAsync($"Unfortunately user {username} died from waiting too long!");
             logger.LogInformation("KillUser {user} successful", username);
             return true;

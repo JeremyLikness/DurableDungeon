@@ -182,7 +182,7 @@ const statusUpdate = () => {
                             tag('p', `On the floor ${state.username} sees a ${universe.room.inventoryItems}.`);
                     }
 
-                    if (universe.user.inventoryItems && universe.user.inventoryList.length > 1) {
+                    if (universe.user.inventoryItems && universe.user.inventoryItems.split(',').length > 1) {
                         description +=
                             tag('p', tag('strong', `${state.username} won the game!`));
                     }

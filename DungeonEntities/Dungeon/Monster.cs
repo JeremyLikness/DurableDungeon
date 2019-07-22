@@ -1,10 +1,9 @@
 ﻿using Microsoft.Azure.WebJobs;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DungeonEntities.Dungeon
 {
-    public class Monster : BaseHasInventory
+    public class Monster : BaseHasInventory, IMonsterOperations
     {
         public string Name { get; set; }
         public bool IsAlive { get; set; }

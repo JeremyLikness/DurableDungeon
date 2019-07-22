@@ -1,11 +1,10 @@
 ﻿using Microsoft.Azure.WebJobs;
-using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace DungeonEntities.Dungeon
 {
-    public class Inventory
+    public class Inventory: IInventoryOperations
     {
         public string Name { get; set; }
         public string Monster { get; set; }

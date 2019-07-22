@@ -1,13 +1,9 @@
 ﻿using DungeonEntities.Dungeon;
 using DungeonEntities.DungeonMaster;
-using Dynamitey.DynamicObjects;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using Microsoft.WindowsAzure.Storage.Table;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
