@@ -49,7 +49,7 @@ namespace DungeonEntities.Functions
                     await context.CallActivityAsync(nameof(ConsoleFunctions.AddToQueue),
                         $"{username} has accepted the challenge!.");
                     await context.CallActivityAsync(nameof(Global.StartNewWorkflow),
-                        ((nameof(NewUserSequentialFunctions.RunUserSequentialWorkflow), 
+                        ((nameof(NewUserSequentialFunctions.RunUserSequentialWorkflow),
                         username)));
                 }
                 else
@@ -125,6 +125,9 @@ namespace DungeonEntities.Functions
             await client.SignalEntityAsync<IUserOperations>(
                 username.AsEntityIdFor<User>(),
                 operation => operation.Kill());
+            await client.SignalEntityAsync(
+                UserCounter.Id,
+                UserCounter.UserDone);
             await console.AddAsync($"Unfortunately user {username} died from waiting too long!");
             logger.LogInformation("KillUser {user} successful", username);
             return true;

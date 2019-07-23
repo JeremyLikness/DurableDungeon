@@ -15,7 +15,7 @@ namespace DungeonEntities.DungeonMaster
         public static readonly string Room = nameof(Room);
 
         private static readonly Random Rnd = new Random();
-        
+
         public static string PickRandom(this string[] selection)
             => selection[Rnd.Next(0, selection.Length - 1)];
 
@@ -54,7 +54,7 @@ namespace DungeonEntities.DungeonMaster
         {
             var result = new List<Inventory>();
             list.RestoreLists();
-            foreach(var item in list.InventoryList)
+            foreach (var item in list.InventoryList)
             {
                 var id = user.AsEntityIdFor<Inventory>(item);
                 var inventory = await client.ReadEntityStateAsync<Inventory>(id);
@@ -79,6 +79,6 @@ namespace DungeonEntities.DungeonMaster
                 list.AddRange(item.Split(","));
             }
             return list;
-        }        
+        }
     }
 }

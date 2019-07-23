@@ -4,6 +4,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -88,7 +89,7 @@ namespace DungeonEntities.Functions
             if (user.EntityState.IsAlive)
             {
                 logger.LogInformation("User {user} is alive!", username);
-                if (user.EntityState.InventoryList != null 
+                if (user.EntityState.InventoryList != null
                     && user.EntityState.InventoryList.Any(i => i == treasure.Name))
                 {
                     logger.LogInformation("User {user} has the treasure!!!", username);
@@ -113,6 +114,7 @@ namespace DungeonEntities.Functions
         [FunctionName(nameof(GameMonitorWorkflow))]
         public static async Task GameMonitorWorkflow(
             [OrchestrationTrigger]IDurableOrchestrationContext context,
+            [OrchestrationClient]IDurableOrchestrationClient client,
             ILogger logger)
         {
             var username = context.GetInput<string>();
@@ -122,6 +124,10 @@ namespace DungeonEntities.Functions
             var treasureFound = context.WaitForExternalEvent(GOTTREASURE);
 
             await Task.WhenAll(monsterKilled, treasureFound);
+
+            await client.SignalEntityAsync(
+                UserCounter.Id,
+                UserCounter.UserDone);
 
             await context.CallActivityAsync(nameof(ConsoleFunctions.AddToQueue),
                 $"{username} has won the game!");
