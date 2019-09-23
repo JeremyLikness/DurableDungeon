@@ -3,6 +3,8 @@ A game designed to teach and learn [serverless durable functions](https://jlik.m
 
 📄 Read the related blog post, [Stateful Serverless: Long-Running Workflows with Durable Functions](https://blog.jeremylikness.com/blog/stateful-serverless-long-running-workflows-with-durable-functions/).
 
+[![Free Azure Account](https://img.shields.io/badge/FREE-Azure-0077ff)](https://jlik.me/gml) Get your [Free Azure Account](https://jlik.me/gml)
+
 ## Overview
 The Durable Dungeon is a very simple game I wrote to illustrate a long-running serverless application architecture. It is entirely serverless and uses [Table Storage](https://jlik.me/fbd) as the database back end (or the preview [Durable Entities](https://jlik.me/gar)). The general game flow works like this:
 
