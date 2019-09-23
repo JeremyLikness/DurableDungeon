@@ -57,7 +57,7 @@ namespace DungeonEntities.Functions
         [FunctionName(nameof(MonitorUser))]
         public static async Task<bool> MonitorUser(
            [ActivityTrigger]string username,
-           [OrchestrationClient]IDurableOrchestrationClient client,
+           [DurableClient]IDurableClient client,
            [Queue(Global.QUEUE)]IAsyncCollector<string> console,
            ILogger logger)
         {
@@ -114,7 +114,7 @@ namespace DungeonEntities.Functions
         [FunctionName(nameof(GameMonitorWorkflow))]
         public static async Task GameMonitorWorkflow(
             [OrchestrationTrigger]IDurableOrchestrationContext context,
-            [OrchestrationClient]IDurableOrchestrationClient client,
+            [DurableClient]IDurableClient client,
             ILogger logger)
         {
             var username = context.GetInput<string>();

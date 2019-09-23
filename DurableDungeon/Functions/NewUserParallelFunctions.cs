@@ -21,7 +21,7 @@ namespace DurableDungeon.Functions
 
         [FunctionName(nameof(RunUserParallelWorkflow))]
         public static async Task RunUserParallelWorkflow(
-            [OrchestrationTrigger]DurableOrchestrationContext context,
+            [OrchestrationTrigger]IDurableOrchestrationContext context,
             ILogger logger)
         {
             var username = context.GetInput<string>();

@@ -20,7 +20,7 @@ namespace DurableDungeon.Functions
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)]
                 HttpRequest req,
             [Queue(Global.QUEUE)]IAsyncCollector<string> console,
-            [OrchestrationClient]IDurableOrchestrationClient starter,
+            [DurableClient]IDurableClient starter,
             ILogger log)
         {
             log.LogInformation("NewUser called.");
@@ -64,7 +64,7 @@ namespace DurableDungeon.Functions
         public static async Task<IActionResult> GameStatus(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "GameStatus/{username}")]
                 HttpRequest req,
-            [OrchestrationClient]IDurableOrchestrationClient client,
+            [DurableClient]IDurableClient client,
             string username,
             ILogger log)
         {
@@ -105,7 +105,7 @@ namespace DurableDungeon.Functions
                 HttpRequest req,
             string username,
             string workflow,
-            [OrchestrationClient]IDurableOrchestrationClient query,
+            [DurableClient]IDurableClient query,
             ILogger log)
         {
             log.LogInformation($"CheckStatus called for {username} and {workflow}.");

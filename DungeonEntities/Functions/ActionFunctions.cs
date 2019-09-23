@@ -20,7 +20,7 @@ namespace DungeonEntities.Functions
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)]
                 HttpRequest req,
             [Queue(Global.QUEUE)]IAsyncCollector<string> console,
-            [OrchestrationClient]IDurableOrchestrationClient client,
+            [DurableClient]IDurableClient client,
             ILogger log)
         {
             log.LogInformation("Action called.");
@@ -60,7 +60,7 @@ namespace DungeonEntities.Functions
 
         private static async Task<IActionResult> KillMethod(
             IAsyncCollector<string> console, 
-            IDurableOrchestrationClient client,
+            IDurableClient client,
             string name, 
             string target, 
             string with, 
@@ -126,7 +126,7 @@ namespace DungeonEntities.Functions
 
         private static async Task<IActionResult> GetMethod(
             IAsyncCollector<string> console,
-            IDurableOrchestrationClient client,
+            IDurableClient client,
             string name,
             string target)
         {

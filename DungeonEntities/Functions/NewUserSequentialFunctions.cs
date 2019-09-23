@@ -30,7 +30,7 @@ namespace DungeonEntities.Functions
         [FunctionName(nameof(PlaceUserInRoom))]
         public static async Task PlaceUserInRoom(
             [ActivityTrigger]string username,
-            [OrchestrationClient]IDurableOrchestrationClient client,
+            [DurableClient]IDurableClient client,
             [Queue(Global.QUEUE)]IAsyncCollector<string> console,
             ILogger logger)
         {
@@ -56,7 +56,7 @@ namespace DungeonEntities.Functions
         [FunctionName(nameof(PlaceMonsterInRoom))]
         public static async Task PlaceMonsterInRoom(
             [ActivityTrigger]string username,
-            [OrchestrationClient]IDurableOrchestrationClient client,
+            [DurableClient]IDurableClient client,
             [Queue(Global.QUEUE)]IAsyncCollector<string> console,
             ILogger logger)
         {
@@ -88,7 +88,7 @@ namespace DungeonEntities.Functions
         [FunctionName(nameof(PlaceInventoryOnMonster))]
         public static async Task PlaceInventoryOnMonster(
             [ActivityTrigger]string username,
-            [OrchestrationClient]IDurableOrchestrationClient client,
+            [DurableClient]IDurableClient client,
             [Queue(Global.QUEUE)]IAsyncCollector<string> console,
             ILogger logger)
         {
@@ -124,7 +124,7 @@ namespace DungeonEntities.Functions
         [FunctionName(nameof(PlaceInventoryInRoom))]
         public static async Task PlaceInventoryInRoom(
             [ActivityTrigger]string username,
-            [OrchestrationClient]IDurableOrchestrationClient client,
+            [DurableClient]IDurableClient client,
             [Queue(Global.QUEUE)]IAsyncCollector<string> console,
             ILogger logger)
         {

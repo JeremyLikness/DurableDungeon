@@ -2,10 +2,7 @@
   "version": "2.0",
   "extensions": {
     "durableTask": {
-      "hubName": "localdungeon",
-      "storageProvider": {
-        "emulator": {}
-      }
+      "hubName": "localdungeon"      
     },
     "extendedSessionsEnabled": "true",
     "extendedSessionIdleTimeoutInSeconds": "120"

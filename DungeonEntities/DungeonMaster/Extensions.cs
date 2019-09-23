@@ -29,7 +29,7 @@ namespace DungeonEntities.DungeonMaster
             return new EntityId(typeof(T).Name, key);
         }
 
-        public static async Task<EntityStateResponse<T>> ReadUserEntityAsync<T>(this IDurableOrchestrationClient client, string user)
+        public static async Task<EntityStateResponse<T>> ReadUserEntityAsync<T>(this IDurableClient client, string user)
         {
             var id = user.AsEntityIdFor<T>();
             var result = await client.ReadEntityStateAsync<T>(id);
@@ -40,7 +40,7 @@ namespace DungeonEntities.DungeonMaster
             return result;
         }
 
-        public static async Task<T> GetEntityForUserOrThrow<T>(this string username, IDurableOrchestrationClient client)
+        public static async Task<T> GetEntityForUserOrThrow<T>(this string username, IDurableClient client)
         {
             var check = await client.ReadUserEntityAsync<T>(username);
             if (!check.EntityExists)
@@ -50,7 +50,7 @@ namespace DungeonEntities.DungeonMaster
             return check.EntityState;
         }
 
-        public static async Task<List<Inventory>> DeserializeListForUserWithClient(this InventoryList list, string user, IDurableOrchestrationClient client)
+        public static async Task<List<Inventory>> DeserializeListForUserWithClient(this InventoryList list, string user, IDurableClient client)
         {
             var result = new List<Inventory>();
             list.RestoreLists();

@@ -17,7 +17,7 @@ namespace DurableDungeon.Functions
         [FunctionName(nameof(StartNewWorkflow))]
         public static async Task StartNewWorkflow(
             [ActivityTrigger](string function, string username) payload,
-            [OrchestrationClient]DurableOrchestrationClient client,
+            [DurableClient]IDurableClient client,
             ILogger logger
             )
         {
@@ -27,7 +27,7 @@ namespace DurableDungeon.Functions
         }
 
         public static async Task<DurableOrchestrationStatus> FindJob(
-            this DurableOrchestrationClient client,
+            this IDurableClient client,
             DateTime time,
             string workflowName,
             string username,

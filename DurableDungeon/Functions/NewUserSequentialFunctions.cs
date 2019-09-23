@@ -12,7 +12,7 @@ namespace DurableDungeon.Functions
     {
         [FunctionName(nameof(RunUserSequentialWorkflow))]
         public static async Task RunUserSequentialWorkflow(
-            [OrchestrationTrigger]DurableOrchestrationContext context,
+            [OrchestrationTrigger]IDurableOrchestrationContext context,
             ILogger logger)
         {
             var username = context.GetInput<string>();

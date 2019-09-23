@@ -24,7 +24,7 @@ namespace DurableDungeon.Functions
             [Table(nameof(Room))]CloudTable roomTable,
             [Table(nameof(Monster))]CloudTable monsterTable,
             [Table(nameof(Inventory))]CloudTable inventoryTable,
-            [OrchestrationClient]DurableOrchestrationClient client,
+            [DurableClient]IDurableClient client,
             ILogger log)
         {
             log.LogInformation("Action called.");
@@ -68,7 +68,7 @@ namespace DurableDungeon.Functions
 
         private static async Task<IActionResult> KillMethod(
             IAsyncCollector<string> console, 
-            DurableOrchestrationClient client,
+            IDurableClient client,
             string name, 
             string target, 
             string with, 
@@ -133,7 +133,7 @@ namespace DurableDungeon.Functions
 
         private static async Task<IActionResult> GetMethod(
             IAsyncCollector<string> console,
-            DurableOrchestrationClient client,
+            IDurableClient client,
             string name,
             string target,
             DataAccess<User> userClient,

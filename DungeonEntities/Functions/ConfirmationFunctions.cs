@@ -70,7 +70,7 @@ namespace DungeonEntities.Functions
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)]
                 HttpRequest req,
             [Queue(Global.QUEUE)]IAsyncCollector<string> console,
-            [OrchestrationClient]IDurableOrchestrationClient durableClient,
+            [DurableClient]IDurableClient durableClient,
             ILogger log)
         {
             log.LogInformation("ConfirmUser called.");
@@ -112,7 +112,7 @@ namespace DungeonEntities.Functions
         [FunctionName(nameof(KillUser))]
         public static async Task<bool> KillUser(
             [ActivityTrigger]string username,
-            [OrchestrationClient]IDurableOrchestrationClient client,
+            [DurableClient]IDurableClient client,
             [Queue(Global.QUEUE)]IAsyncCollector<string> console,
             ILogger logger)
         {

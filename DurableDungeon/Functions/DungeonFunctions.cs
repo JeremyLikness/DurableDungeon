@@ -21,7 +21,7 @@ namespace DurableDungeon.Functions
                 HttpRequest req,
             [Queue(Global.QUEUE)]IAsyncCollector<string> console,
             [Table(nameof(User))]CloudTable table,
-            [OrchestrationClient]DurableOrchestrationClient starter,
+            [DurableClient]IDurableClient starter,
             ILogger log)
         {
             log.LogInformation("NewUser called.");
@@ -97,7 +97,7 @@ namespace DurableDungeon.Functions
                 HttpRequest req,
             string username,
             string workflow,
-            [OrchestrationClient]DurableOrchestrationClient query,
+            [DurableClient]IDurableClient query,
             ILogger log)
         {
             log.LogInformation($"CheckStatus called for {username} and {workflow}.");

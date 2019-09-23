@@ -17,7 +17,7 @@ namespace DungeonEntities.Functions
         [FunctionName(nameof(StartNewWorkflow))]
         public static async Task StartNewWorkflow(
             [ActivityTrigger](string function, string username) payload,
-            [OrchestrationClient]IDurableOrchestrationClient client,
+            [DurableClient]IDurableClient client,
             ILogger logger
             )
         {
@@ -27,7 +27,7 @@ namespace DungeonEntities.Functions
         }
 
         public static async Task<DurableOrchestrationStatus> FindJob(
-            this IDurableOrchestrationClient client,
+            this IDurableClient client,
             DateTime time,
             string workflowName,
             string username,

@@ -20,7 +20,7 @@ namespace DurableDungeon.Functions
 
         [FunctionName(nameof(UserConfirmationWorkflow))]
         public static async Task UserConfirmationWorkflow(
-            [OrchestrationTrigger]DurableOrchestrationContext context,
+            [OrchestrationTrigger]IDurableOrchestrationContext context,
             ILogger logger)
         {
             var username = context.GetInput<string>();
@@ -71,7 +71,7 @@ namespace DurableDungeon.Functions
                 HttpRequest req,
             [Queue(Global.QUEUE)]IAsyncCollector<string> console,
             [Table(nameof(User))]CloudTable table,
-            [OrchestrationClient]DurableOrchestrationClient durableClient,
+            [DurableClient]IDurableClient durableClient,
             ILogger log)
         {
             log.LogInformation("ConfirmUser called.");

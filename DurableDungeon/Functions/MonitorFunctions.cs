@@ -19,7 +19,7 @@ namespace DurableDungeon.Functions
 
         [FunctionName(nameof(UserMonitorWorkflow))]
         public static async Task UserMonitorWorkflow(
-            [OrchestrationTrigger]DurableOrchestrationContext context,
+            [OrchestrationTrigger]IDurableOrchestrationContext context,
             ILogger logger)
         {
             var username = context.GetInput<string>();
@@ -106,7 +106,7 @@ namespace DurableDungeon.Functions
 
         [FunctionName(nameof(GameMonitorWorkflow))]
         public static async Task GameMonitorWorkflow(
-            [OrchestrationTrigger]DurableOrchestrationContext context,
+            [OrchestrationTrigger]IDurableOrchestrationContext context,
             ILogger logger)
         {
             var username = context.GetInput<string>();
